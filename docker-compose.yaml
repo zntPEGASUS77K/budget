@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: finance-postgres
+    environment:
+      POSTGRES_DB: finance_db
+      POSTGRES_USER: masterpiece
+      POSTGRES_PASSWORD: zntPEGASUS77K
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./resources/docker-db/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - finance-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U masterpiece -d finance_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  finance-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: finance-app
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/finance_db
+      - SPRING_DATASOURCE_USERNAME=masterpiece
+      - SPRING_DATASOURCE_PASSWORD=zntPEGASUS77K
+      - JWT_SECRET=zntPEGASUS77K
+    ports:
+      - "8087:8087"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - finance-network
+    volumes:
+      - app_logs:/app/logs
+      - upload_files:/app/uploads
+    restart: on-failure
+    command: ["sh", "-c", "sleep 10 && java -jar app.jar"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  postgres_data:
+  redis_data:
+  app_logs:
+  upload_files:
+
+networks:
+  finance-network:
+    driver: bridge

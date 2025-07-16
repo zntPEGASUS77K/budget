@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5438/finance_db}
+    username: ${SPRING_DATASOURCE_USERNAME:masterpiece}
+    password: ${SPRING_DATASOURCE_PASSWORD:zntPEGASUS77K}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  main:
+    allow-bean-definition-overriding: true
+
+jwt:
+  secret: ${JWT_SECRET:zntPEGASUS77K}
+
+logging:
+  file:
+    path: /app/logs

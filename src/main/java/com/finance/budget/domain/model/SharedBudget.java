@@ -1,6 +1,6 @@
 package com.finance.budget.domain.model;
 
-import com.finance.budget.valueobject.SharedBudgetRole;
+import com.finance.budget.domain.valueobject.SharedBudgetRole;
 import lombok.*;
 
 @Data

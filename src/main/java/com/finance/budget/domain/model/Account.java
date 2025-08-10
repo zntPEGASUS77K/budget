@@ -1,6 +1,6 @@
 package com.finance.budget.domain.model;
 
-import com.finance.budget.valueobject.AccountType;
+import com.finance.budget.domain.valueobject.AccountType;
 import lombok.*;
 
 import java.math.BigDecimal;

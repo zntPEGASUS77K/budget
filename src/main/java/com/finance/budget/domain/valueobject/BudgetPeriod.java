@@ -1,4 +1,4 @@
-package com.finance.budget.valueobject;
+package com.finance.budget.domain.valueobject;
 
 public enum BudgetPeriod {
     MONTHLY, YEARLY

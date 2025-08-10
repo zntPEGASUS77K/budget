@@ -1,6 +1,6 @@
 package com.finance.budget.domain.model;
 
-import com.finance.budget.valueobject.TransactionType;
+import com.finance.budget.domain.valueobject.TransactionType;
 import lombok.*;
 
 import java.math.BigDecimal;
